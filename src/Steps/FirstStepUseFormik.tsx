@@ -1,15 +1,17 @@
-import * as React from 'react';
-import dayjs, { Dayjs } from 'dayjs';
+import * as React from "react";
+import dayjs, { Dayjs } from "dayjs";
 
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
+import { Link } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import { useFormik } from "formik";
 
-import phoneCodes from '../utils/phoneCodes.json';
+import phoneCodes from "../utils/phoneCodes.json";
 
 const FirstStepUseFormik: React.FC = () => {
   const [value, setValue] = React.useState<Dayjs | null>(dayjs());
@@ -21,7 +23,7 @@ const FirstStepUseFormik: React.FC = () => {
   return (
     <form
       autoComplete="off"
-      style={{ display: 'flex', flexDirection: 'column' }}
+      style={{ display: "flex", flexDirection: "column" }}
     >
       <Grid container spacing={2} direction="column">
         <Grid item>
@@ -73,7 +75,13 @@ const FirstStepUseFormik: React.FC = () => {
         <Grid item>
           <FormControlLabel
             control={<Checkbox />}
-            label="I agree to terms & conditions"
+            label=<Link
+              target="_blank"
+              href="http://www.example.com"
+              underline="none"
+            >
+              I agree to terms & conditions
+            </Link>
             name="policy"
           />
         </Grid>
