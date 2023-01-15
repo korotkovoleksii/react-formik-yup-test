@@ -59,128 +59,119 @@ const CustomizedSelectForFormik = ({
   );
 };
 
-const ThirdStepUseFormik: React.FC<{
-  initValue: IThirdStepSU;
-  submit: () => void;
-}> = ({
-  initValue,
-  submit,
-}: {
-  initValue: IThirdStepSU;
-  submit: () => void;
-}) => {
+const ThirdStepUseFormik: React.FC = () => {
   const [value] = React.useState<number | null>(Date.now());
+  return <></>;
+  // return (
+  //   <>
+  //     <Formik
+  //       initialValues={{
+  //         ...initValue,
+  //       }}
+  //       onSubmit={(values) => {
+  //         alert(JSON.stringify(values, null, 2));
+  //       }}
+  //       render={({ values }) => {
+  //         return (
+  //           <LocalizationProvider dateAdapter={AdapterDayjs}>
+  //             <Form>
+  //               <Grid container direction="column" spacing={2}>
+  //                 <Grid item>
+  //                   <Field
+  //                     name="position"
+  //                     component={CustomizedSelectForFormik}
+  //                     id="position"
+  //                     label={"Position"}
+  //                     variant="outlined"
+  //                   >
+  //                     {positions.map((item) => (
+  //                       <MenuItem value={item} key={item}>
+  //                         {item}
+  //                       </MenuItem>
+  //                     ))}
+  //                   </Field>
+  //                 </Grid>
 
-  return (
-    <>
-      <Formik
-        initialValues={{
-          ...initValue,
-        }}
-        onSubmit={(values) => {
-          alert(JSON.stringify(values, null, 2));
-        }}
-        render={({ values }) => {
-          return (
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <Form>
-                <Grid container direction="column" spacing={2}>
-                  <Grid item>
-                    <Field
-                      name="position"
-                      component={CustomizedSelectForFormik}
-                      id="position"
-                      label={"Position"}
-                      variant="outlined"
-                    >
-                      {positions.map((item) => (
-                        <MenuItem value={item} key={item}>
-                          {item}
-                        </MenuItem>
-                      ))}
-                    </Field>
-                  </Grid>
-
-                  <FieldArray
-                    name="timeSlots"
-                    render={(arrayHelpers) => (
-                      <Grid item container>
-                        <Grid
-                          item
-                          container
-                          xs={9}
-                          sx={{
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: "15px",
-                          }}
-                        >
-                          {values.timeSlots.map((item, index) => (
-                            <Grid item container key={index} spacing={2}>
-                              <Grid item xs>
-                                <TimePicker
-                                  label="From"
-                                  value={item.from}
-                                  onChange={() => {}}
-                                  renderInput={(params) => (
-                                    <TextField {...params} />
-                                  )}
-                                />
-                              </Grid>
-                              <Grid item xs>
-                                <TimePicker
-                                  label="To"
-                                  value={item.to}
-                                  onChange={() => {}}
-                                  renderInput={(params) => (
-                                    <TextField {...params} />
-                                  )}
-                                />
-                              </Grid>
-                            </Grid>
-                          ))}
-                        </Grid>
-                        <Grid item container xs={3}>
-                          <Grid item>
-                            <IconButton
-                              aria-label="add"
-                              color="success"
-                              size="large"
-                              disabled={values.timeSlots.length >= 5}
-                              onClick={() => {
-                                arrayHelpers.push({ from: value, to: value });
-                              }}
-                            >
-                              <AddCircleOutlineIcon />
-                            </IconButton>
-                          </Grid>
-                          <Grid item>
-                            <IconButton
-                              aria-label="delete"
-                              color="error"
-                              size="large"
-                              disabled={values.timeSlots.length <= 1}
-                              onClick={() => {
-                                arrayHelpers.remove(
-                                  values.timeSlots?.length - 1
-                                );
-                              }}
-                            >
-                              <DeleteIcon />
-                            </IconButton>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    )}
-                  />
-                </Grid>
-              </Form>
-            </LocalizationProvider>
-          );
-        }}
-      />
-    </>
-  );
+  //                 <FieldArray
+  //                   name="timeSlots"
+  //                   render={(arrayHelpers) => (
+  //                     <Grid item container>
+  //                       <Grid
+  //                         item
+  //                         container
+  //                         xs={9}
+  //                         sx={{
+  //                           display: "flex",
+  //                           flexDirection: "column",
+  //                           gap: "15px",
+  //                         }}
+  //                       >
+  //                         {values.timeSlots.map((item, index) => (
+  //                           <Grid item container key={index} spacing={2}>
+  //                             <Grid item xs>
+  //                               <TimePicker
+  //                                 label="From"
+  //                                 value={item.from}
+  //                                 onChange={() => {}}
+  //                                 renderInput={(params) => (
+  //                                   <TextField {...params} />
+  //                                 )}
+  //                               />
+  //                             </Grid>
+  //                             <Grid item xs>
+  //                               <TimePicker
+  //                                 label="To"
+  //                                 value={item.to}
+  //                                 onChange={() => {}}
+  //                                 renderInput={(params) => (
+  //                                   <TextField {...params} />
+  //                                 )}
+  //                               />
+  //                             </Grid>
+  //                           </Grid>
+  //                         ))}
+  //                       </Grid>
+  //                       <Grid item container xs={3}>
+  //                         <Grid item>
+  //                           <IconButton
+  //                             aria-label="add"
+  //                             color="success"
+  //                             size="large"
+  //                             disabled={values.timeSlots.length >= 5}
+  //                             onClick={() => {
+  //                               arrayHelpers.push({ from: value, to: value });
+  //                             }}
+  //                           >
+  //                             <AddCircleOutlineIcon />
+  //                           </IconButton>
+  //                         </Grid>
+  //                         <Grid item>
+  //                           <IconButton
+  //                             aria-label="delete"
+  //                             color="error"
+  //                             size="large"
+  //                             disabled={values.timeSlots.length <= 1}
+  //                             onClick={() => {
+  //                               arrayHelpers.remove(
+  //                                 values.timeSlots?.length - 1
+  //                               );
+  //                             }}
+  //                           >
+  //                             <DeleteIcon />
+  //                           </IconButton>
+  //                         </Grid>
+  //                       </Grid>
+  //                     </Grid>
+  //                   )}
+  //                 />
+  //               </Grid>
+  //             </Form>
+  //           </LocalizationProvider>
+  //         );
+  //       }}
+  //     />
+  //   </>
+  // );
 };
 
 export default ThirdStepUseFormik;

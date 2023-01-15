@@ -20,7 +20,7 @@ import {
   ISignupValues,
   IThirdStepSU,
 } from "../utils/interfaces/SignupInterface";
-import { useFormik } from "formik";
+import { Form, Formik, useFormik, useFormikContext } from "formik";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -85,68 +85,71 @@ function QontoStepIcon(props: StepIconProps) {
 
 export default function StepperComponent() {
   const [activeStep, setActiveStep] = React.useState(0);
-  const [data, setData] = React.useState<ISignupValues | null>();
+  // const [data, setData] = React.useState<ISignupValues | null>();
   const [value] = React.useState<number | null>(Date.now());
 
-  const initValuesFirstStepSU: IFirstStepSU = {
+  const initValueForm: ISignupValues = {
     numberPhone: "",
     username: "",
     firstName: "",
     lastName: "",
     DOB: dayjs(),
     conditions: false,
-  };
-  const initValuesSecondStepSU: ISecondStepSU = {
     password: "",
     confirmPassword: "",
-  };
-  const initValuesThirdStepSU: IThirdStepSU = {
     position: "",
     timeSlots: [{ from: value, to: value }],
   };
-  const firstStepForm = useFormik({
-    initialValues: initValuesFirstStepSU,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-    },
-  });
-  const secondStepForm = useFormik({
-    initialValues: initValuesSecondStepSU,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-    },
-  });
-  const thirdStepForm = useFormik({
-    initialValues: initValuesThirdStepSU,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-    },
-  });
+  // const initValuesFirstStepSU: IFirstStepSU = {
+  //   numberPhone: "",
+  //   username: "",
+  //   firstName: "",
+  //   lastName: "",
+  //   DOB: dayjs(),
+  //   conditions: false,
+  // };
+  // const initValuesSecondStepSU: ISecondStepSU = {
+  //   password: "",
+  //   confirmPassword: "",
+  // };
+  // const initValuesThirdStepSU: IThirdStepSU = {
+  //   position: "",
+  //   timeSlots: [{ from: value, to: value }],
+  // };
+  // const firstStepForm = useFormik({
+  //   initialValues: initValuesFirstStepSU,
+  //   onSubmit: (values) => {
+  //     alert(JSON.stringify(values, null, 2));
+  //   },
+  // });
+  // const secondStepForm = useFormik({
+  //   initialValues: initValuesSecondStepSU,
+  //   onSubmit: (values) => {
+  //     alert(JSON.stringify(values, null, 2));
+  //   },
+  // });
+  // const thirdStepForm = useFormik({
+  //   initialValues: initValuesThirdStepSU,
+  //   onSubmit: (values) => {
+  //     alert(JSON.stringify(values, null, 2));
+  //   },
+  // });
   const steps = [
     {
-      component: <FirstStepUseFormik {...firstStepForm} />,
-      form: firstStepForm,
+      component: <FirstStepUseFormik />,
     },
     {
-      component: <SecondStepUseFormik {...secondStepForm} />,
-      form: secondStepForm,
+      component: <SecondStepUseFormik />,
     },
     {
-      component: (
-        <ThirdStepUseFormik
-          initValue={initValuesThirdStepSU}
-          submit={() => {
-            console.log("sfjkls");
-          }}
-        />
-      ),
-      form: thirdStepForm,
+      component: <ThirdStepUseFormik />,
     },
   ];
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
-    steps[activeStep].form.submitForm();
+
+    // steps[activeStep].form.submitForm();
   };
 
   const handleBack = () => {
@@ -154,17 +157,16 @@ export default function StepperComponent() {
   };
 
   const submit = async () => {
-    const res = steps.reduce(
-      (accumulator, crr) => ({ ...accumulator, ...crr.form.values }),
-      {}
-    );
+    // const res = steps.reduce(
+    //   (accumulator, crr) => ({ ...accumulator, ...crr.form.values }),
+    //   {}
+    // );
 
-    // setData(steps.reduce((accumulator, currentValue) => {...accumu},{}));
     try {
       const request = await new Promise((resolve) => {
         setTimeout(() => {
           // resolve("Yay");
-          alert(JSON.stringify(res, null, 2));
+          // alert(JSON.stringify(res, null, 2));
         }, 4000);
       });
 
@@ -191,27 +193,44 @@ export default function StepperComponent() {
       </Box>
       <div>
         <React.Fragment>
-          <Box>{steps[activeStep].component}</Box>
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
-              Back
-            </Button>
+          <Formik
+            initialValues={initValueForm}
+            onSubmit={(values, actions) => {
+              alert(JSON.stringify(values, null, 2));
+            }}
+          >
+            {({ setFieldValue, setFieldTouched, values, errors, touched }) => (
+              <Form>
+                <Box>{steps[activeStep].component}</Box>
+                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                  <Button
+                    color="inherit"
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    sx={{ mr: 1 }}
+                  >
+                    Back
+                  </Button>
 
-            {activeStep !== steps.length - 1 ? (
-              <Button onClick={handleNext} sx={{ mr: 1 }}>
-                Next
-              </Button>
-            ) : (
-              <Button onClick={submit} variant="contained" sx={{ mr: 1 }}>
-                Submit
-              </Button>
+                  {activeStep !== steps.length - 1 ? (
+                    <Button
+                      onClick={() => {
+                        console.log(values);
+                        handleNext();
+                      }}
+                      sx={{ mr: 1 }}
+                    >
+                      Next
+                    </Button>
+                  ) : (
+                    <Button onClick={submit} variant="contained" sx={{ mr: 1 }}>
+                      Submit
+                    </Button>
+                  )}
+                </Box>
+              </Form>
             )}
-          </Box>
+          </Formik>
         </React.Fragment>
       </div>
     </Box>

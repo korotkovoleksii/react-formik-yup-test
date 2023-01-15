@@ -13,15 +13,7 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-const SecondStepUseFormik: React.FC<FormikProps<ISecondStepSU>> = ({
-  values,
-  errors,
-  touched,
-  handleChange,
-  handleBlur,
-  handleSubmit,
-  isSubmitting,
-}: FormikProps<ISecondStepSU>) => {
+const SecondStepUseFormik: React.FC = () => {
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setConfirmPassword] = React.useState(false);
 
@@ -31,24 +23,6 @@ const SecondStepUseFormik: React.FC<FormikProps<ISecondStepSU>> = ({
       style={{ display: "flex", flexDirection: "column" }}
     >
       <Grid container direction="column" spacing={2}>
-        {/* <Grid item> */}
-        {/* <TextField
-            name="password"
-            label="Password"
-            variant="outlined"
-            type="password"
-            fullWidth
-          />
-        </Grid> */}
-        {/* <Grid item>
-          <TextField
-            name="confirm-password"
-            label="Confirm password"
-            variant="outlined"
-            type="password"
-            fullWidth
-          />
-        </Grid> */}
         <Grid item>
           <FormControl variant="outlined" fullWidth>
             <InputLabel htmlFor="outlined-adornment-password">
