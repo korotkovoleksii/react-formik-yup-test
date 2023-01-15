@@ -16,11 +16,11 @@ export interface ISecondStepSU {
   confirmPassword: string;
 }
 export interface ITimeSlot {
-  from: string;
-  to: string;
+  from: number | null;
+  to: number | null;
 }
 type Arr<T> = [T, ...T[]];
 export interface IThirdStepSU {
   position: string;
-  timeSlots?: Arr<ITimeSlot>;
+  timeSlots: Arr<ITimeSlot>;
 }
