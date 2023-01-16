@@ -16,6 +16,7 @@ import ThirdStepUseFormik from "./ThirdStepUseFormik";
 import dayjs, { Dayjs } from "dayjs";
 import { ISignupValues } from "../utils/interfaces/SignupInterface";
 import { Form, Formik, useFormik, useFormikContext } from "formik";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -80,7 +81,7 @@ function QontoStepIcon(props: StepIconProps) {
 
 export default function StepperComponent() {
   const [activeStep, setActiveStep] = React.useState(0);
-
+  const [loaidng, setLoading] = React.useState(false);
   const initValueForm: ISignupValues = {
     numberPhone: "",
     username: "",
@@ -116,13 +117,14 @@ export default function StepperComponent() {
 
   const submit = async (values: ISignupValues) => {
     try {
+      setLoading(true);
       const request = await new Promise((resolve) => {
         setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
+          resolve(JSON.stringify(values, null, 2));
         }, 4000);
       });
-
       alert(request);
+      setLoading(false);
     } catch (err) {
       throw err;
     }
@@ -175,16 +177,16 @@ export default function StepperComponent() {
                       Next
                     </Button>
                   ) : (
-                    <Button
+                    <LoadingButton
+                      loading={loaidng}
                       onClick={() => {
-                        console.log(values);
                         submit(values);
                       }}
                       variant="contained"
                       sx={{ mr: 1 }}
                     >
                       Submit
-                    </Button>
+                    </LoadingButton>
                   )}
                 </Box>
               </Form>
