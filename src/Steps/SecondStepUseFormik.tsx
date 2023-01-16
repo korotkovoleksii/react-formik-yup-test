@@ -1,10 +1,9 @@
 import React from "react";
 
-import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
-import { ISecondStepSU } from "../utils/interfaces/SignupInterface";
-import { FormikProps, useFormik } from "formik";
+import { Field } from "formik";
 import {
+  Box,
+  Grid,
   FormControl,
   IconButton,
   InputAdornment,
@@ -18,9 +17,11 @@ const SecondStepUseFormik: React.FC = () => {
   const [showConfirmPassword, setConfirmPassword] = React.useState(false);
 
   return (
-    <form
-      autoComplete="off"
-      style={{ display: "flex", flexDirection: "column" }}
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+      }}
     >
       <Grid container direction="column" spacing={2}>
         <Grid item>
@@ -28,8 +29,10 @@ const SecondStepUseFormik: React.FC = () => {
             <InputLabel htmlFor="outlined-adornment-password">
               Password
             </InputLabel>
-            <OutlinedInput
+            <Field
+              as={OutlinedInput}
               id="outlined-adornment-password"
+              name="password"
               type={showPassword ? "text" : "password"}
               endAdornment={
                 <InputAdornment position="end">
@@ -37,7 +40,6 @@ const SecondStepUseFormik: React.FC = () => {
                     aria-label="toggle password visibility"
                     onClick={() => setShowPassword(!showPassword)}
                     onMouseDown={() => setShowPassword(!showPassword)}
-                    edge="end"
                   >
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
@@ -52,9 +54,11 @@ const SecondStepUseFormik: React.FC = () => {
             <InputLabel htmlFor="outlined-adornment-password">
               Confirm password
             </InputLabel>
-            <OutlinedInput
+            <Field
+              as={OutlinedInput}
               id="outlined-adornment-password"
               type={showConfirmPassword ? "text" : "password"}
+              name="confirmPassword"
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -72,7 +76,7 @@ const SecondStepUseFormik: React.FC = () => {
           </FormControl>
         </Grid>
       </Grid>
-    </form>
+    </Box>
   );
 };
 

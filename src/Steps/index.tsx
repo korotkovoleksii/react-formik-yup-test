@@ -14,12 +14,7 @@ import FirstStepUseFormik from "./FirstStepUseFormik";
 import SecondStepUseFormik from "./SecondStepUseFormik";
 import ThirdStepUseFormik from "./ThirdStepUseFormik";
 import dayjs, { Dayjs } from "dayjs";
-import {
-  IFirstStepSU,
-  ISecondStepSU,
-  ISignupValues,
-  IThirdStepSU,
-} from "../utils/interfaces/SignupInterface";
+import { ISignupValues } from "../utils/interfaces/SignupInterface";
 import { Form, Formik, useFormik, useFormikContext } from "formik";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
@@ -85,8 +80,6 @@ function QontoStepIcon(props: StepIconProps) {
 
 export default function StepperComponent() {
   const [activeStep, setActiveStep] = React.useState(0);
-  // const [data, setData] = React.useState<ISignupValues | null>();
-  const [value] = React.useState<number | null>(Date.now());
 
   const initValueForm: ISignupValues = {
     numberPhone: "",
@@ -98,42 +91,9 @@ export default function StepperComponent() {
     password: "",
     confirmPassword: "",
     position: "",
-    timeSlots: [{ from: value, to: value }],
+    timeSlots: [{ from: Date.now(), to: Date.now() }],
   };
-  // const initValuesFirstStepSU: IFirstStepSU = {
-  //   numberPhone: "",
-  //   username: "",
-  //   firstName: "",
-  //   lastName: "",
-  //   DOB: dayjs(),
-  //   conditions: false,
-  // };
-  // const initValuesSecondStepSU: ISecondStepSU = {
-  //   password: "",
-  //   confirmPassword: "",
-  // };
-  // const initValuesThirdStepSU: IThirdStepSU = {
-  //   position: "",
-  //   timeSlots: [{ from: value, to: value }],
-  // };
-  // const firstStepForm = useFormik({
-  //   initialValues: initValuesFirstStepSU,
-  //   onSubmit: (values) => {
-  //     alert(JSON.stringify(values, null, 2));
-  //   },
-  // });
-  // const secondStepForm = useFormik({
-  //   initialValues: initValuesSecondStepSU,
-  //   onSubmit: (values) => {
-  //     alert(JSON.stringify(values, null, 2));
-  //   },
-  // });
-  // const thirdStepForm = useFormik({
-  //   initialValues: initValuesThirdStepSU,
-  //   onSubmit: (values) => {
-  //     alert(JSON.stringify(values, null, 2));
-  //   },
-  // });
+
   const steps = [
     {
       component: <FirstStepUseFormik />,
@@ -148,25 +108,17 @@ export default function StepperComponent() {
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
-
-    // steps[activeStep].form.submitForm();
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const submit = async () => {
-    // const res = steps.reduce(
-    //   (accumulator, crr) => ({ ...accumulator, ...crr.form.values }),
-    //   {}
-    // );
-
+  const submit = async (values: ISignupValues) => {
     try {
       const request = await new Promise((resolve) => {
         setTimeout(() => {
-          // resolve("Yay");
-          // alert(JSON.stringify(res, null, 2));
+          alert(JSON.stringify(values, null, 2));
         }, 4000);
       });
 
@@ -223,7 +175,14 @@ export default function StepperComponent() {
                       Next
                     </Button>
                   ) : (
-                    <Button onClick={submit} variant="contained" sx={{ mr: 1 }}>
+                    <Button
+                      onClick={() => {
+                        console.log(values);
+                        submit(values);
+                      }}
+                      variant="contained"
+                      sx={{ mr: 1 }}
+                    >
                       Submit
                     </Button>
                   )}
