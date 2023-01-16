@@ -6,6 +6,10 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
 } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -25,14 +29,35 @@ const FirstStepUseFormik: React.FC = () => {
       }}
     >
       <Grid container spacing={2} direction="column">
-        <Grid item>
-          <Field
-            as={TextField}
-            name="numberPhone"
-            variant="outlined"
-            label="Phone number"
-            fullWidth
-          />
+        <Grid item container spacing={2}>
+          <Grid item xs={4}>
+            <FormControl fullWidth>
+              <InputLabel id="codeCountryIdLabel">Code country</InputLabel>
+              <Field
+                as={Select}
+                name="codeCountry"
+                variant="outlined"
+                labelId="codeCountryIdLabel"
+                label="Code country"
+                fullWidth
+              >
+                {phoneCodes.map((item) => (
+                  <MenuItem value={item.dial_code}>
+                    {item.code} {item.dial_code}
+                  </MenuItem>
+                ))}
+              </Field>
+            </FormControl>
+          </Grid>
+          <Grid item xs={8}>
+            <Field
+              as={TextField}
+              name="numberPhone"
+              variant="outlined"
+              label="Phone number"
+              fullWidth
+            />
+          </Grid>
         </Grid>
 
         <Grid item>

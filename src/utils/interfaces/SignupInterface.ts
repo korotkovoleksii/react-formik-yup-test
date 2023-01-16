@@ -6,6 +6,7 @@ export interface ITimeSlot {
 type Arr<T> = [T, ...T[]];
 
 export interface ISignupValues {
+  codeCountry: string;
   numberPhone: string;
   username: string;
   firstName: string;

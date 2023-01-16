@@ -83,6 +83,7 @@ export default function StepperComponent() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [loaidng, setLoading] = React.useState(false);
   const initValueForm: ISignupValues = {
+    codeCountry: "",
     numberPhone: "",
     username: "",
     firstName: "",
