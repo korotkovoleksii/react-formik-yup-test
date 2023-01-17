@@ -17,6 +17,8 @@ import dayjs, { Dayjs } from "dayjs";
 import { ISignupValues } from "../utils/interfaces/SignupInterface";
 import { Form, Formik, useFormik, useFormikContext } from "formik";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { singUpSchemaValidation } from "../utils/validation/validationSchema";
+//1)Validation for all fields
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -150,6 +152,7 @@ export default function StepperComponent() {
         <React.Fragment>
           <Formik
             initialValues={initValueForm}
+            validationSchema={singUpSchemaValidation}
             onSubmit={(values, actions) => {
               alert(JSON.stringify(values, null, 2));
             }}
@@ -170,7 +173,7 @@ export default function StepperComponent() {
                   {activeStep !== steps.length - 1 ? (
                     <Button
                       onClick={() => {
-                        console.log(values);
+                        console.log(touched);
                         handleNext();
                       }}
                       sx={{ mr: 1 }}

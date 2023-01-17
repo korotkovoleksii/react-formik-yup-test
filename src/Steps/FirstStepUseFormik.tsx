@@ -42,7 +42,7 @@ const FirstStepUseFormik: React.FC = () => {
                 fullWidth
               >
                 {phoneCodes.map((item) => (
-                  <MenuItem value={item.dial_code}>
+                  <MenuItem value={item.dial_code} key={item.code}>
                     {item.code} {item.dial_code}
                   </MenuItem>
                 ))}
@@ -57,6 +57,9 @@ const FirstStepUseFormik: React.FC = () => {
               label="Phone number"
               fullWidth
             />
+            {formik.errors.numberPhone && formik.touched.numberPhone ? (
+              <div>{formik.errors.numberPhone}</div>
+            ) : null}
           </Grid>
         </Grid>
 
@@ -68,6 +71,9 @@ const FirstStepUseFormik: React.FC = () => {
             variant="outlined"
             fullWidth
           ></Field>
+          {formik.errors.username && formik.touched.username ? (
+            <div>{formik.errors.username}</div>
+          ) : null}
         </Grid>
 
         <Grid item>
@@ -77,6 +83,9 @@ const FirstStepUseFormik: React.FC = () => {
             label="First Name"
             fullWidth
           ></Field>
+          {formik.errors.firstName && formik.touched.firstName ? (
+            <div>{formik.errors.firstName}</div>
+          ) : null}
         </Grid>
 
         <Grid item>
@@ -87,6 +96,9 @@ const FirstStepUseFormik: React.FC = () => {
             variant="outlined"
             fullWidth
           ></Field>
+          {formik.errors.lastName && formik.touched.lastName ? (
+            <div>{formik.errors.lastName}</div>
+          ) : null}
         </Grid>
 
         <Grid item>
@@ -118,6 +130,9 @@ const FirstStepUseFormik: React.FC = () => {
             name="policy"
           />
         </Grid>
+        {formik.errors.conditions && formik.touched.conditions ? (
+          <div>{formik.errors.lastName}</div>
+        ) : null}
       </Grid>
     </Box>
   );
