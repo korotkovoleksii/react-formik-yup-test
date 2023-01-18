@@ -17,7 +17,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { ISignupValues } from "../utils/interfaces/SignupInterface";
 import { Form, Formik, useFormik, useFormikContext } from "formik";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { singUpSchemaValidation } from "../utils/validation/validationSchema";
+import { arrayStepsSchemaValidation } from "../utils/validation/validationSchema";
 //1)Validation for all fields
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
@@ -152,19 +152,25 @@ export default function StepperComponent() {
         <React.Fragment>
           <Formik
             initialValues={initValueForm}
-            validationSchema={singUpSchemaValidation}
-            onSubmit={(values, actions) => {
-              alert(JSON.stringify(values, null, 2));
+            validationSchema={arrayStepsSchemaValidation[activeStep]}
+            onSubmit={(values) => {
+              if (!(steps.length - 1 === activeStep)) {
+                handleNext();
+              } else {
+                submit(values);
+              }
             }}
           >
-            {({ setFieldValue, setFieldTouched, values, errors, touched }) => (
-              <Form>
+            {({ submitForm }) => (
+              <Box>
                 <Box>{steps[activeStep].component}</Box>
                 <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                   <Button
                     color="inherit"
                     disabled={activeStep === 0}
-                    onClick={handleBack}
+                    onClick={() => {
+                      handleBack();
+                    }}
                     sx={{ mr: 1 }}
                   >
                     Back
@@ -172,28 +178,28 @@ export default function StepperComponent() {
 
                   {activeStep !== steps.length - 1 ? (
                     <Button
-                      onClick={() => {
-                        console.log(touched);
-                        handleNext();
-                      }}
+                      variant="text"
                       sx={{ mr: 1 }}
+                      onClick={() => {
+                        submitForm();
+                      }}
                     >
                       Next
                     </Button>
                   ) : (
                     <LoadingButton
                       loading={loaidng}
-                      onClick={() => {
-                        submit(values);
-                      }}
                       variant="contained"
                       sx={{ mr: 1 }}
+                      onClick={() => {
+                        submitForm();
+                      }}
                     >
                       Submit
                     </LoadingButton>
                   )}
                 </Box>
-              </Form>
+              </Box>
             )}
           </Formik>
         </React.Fragment>
