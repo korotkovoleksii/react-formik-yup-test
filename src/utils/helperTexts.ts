@@ -1,16 +1,17 @@
 export const helperTexts = {
   stepOne: {
-    phone: 'Phone number is invalid',
+    phone: "Phone number is invalid",
     username:
-      'Username can only contain alphanumeric characters, underscore and dot.',
-    name: 'Name can only contain alphabetic characters and spaces',
-    DOB: 'You must be 18+ years old in order to continue',
-    terms: 'You must read our terms and conditions',
+      "Username can only contain alphanumeric characters, underscore and dot.",
+    name: "Name can only contain alphabetic characters and spaces",
+    lastName: "Last name can only contain alphabetic characters and spaces",
+    DOB: "You must be 18+ years old in order to continue",
+    terms: "You must read our terms and conditions",
   },
   stepTwo: {
     password:
-      'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character',
-    password_match: 'Passwords should match',
+      "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
+    password_match: "Passwords should match",
   },
   stepThree: {
     timeslots: "Time slots shouldn't intersect",

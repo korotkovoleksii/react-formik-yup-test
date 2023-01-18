@@ -55,12 +55,12 @@ const SecondStepUseFormik: React.FC = () => {
           </Grid>
           <Grid item>
             <FormControl variant="outlined" fullWidth>
-              <InputLabel htmlFor="outlined-adornment-password">
+              <InputLabel htmlFor="outlined-adornment-password-confirm">
                 Confirm password
               </InputLabel>
               <Field
                 as={OutlinedInput}
-                id="outlined-adornment-password"
+                id="outlined-adornment-password-confirm"
                 type={showConfirmPassword ? "text" : "password"}
                 name="confirmPassword"
                 endAdornment={
@@ -77,7 +77,7 @@ const SecondStepUseFormik: React.FC = () => {
                     </IconButton>
                   </InputAdornment>
                 }
-                label="Password"
+                label="Confirm password"
               />
             </FormControl>
             {formik.errors.confirmPassword && formik.touched.confirmPassword ? (
