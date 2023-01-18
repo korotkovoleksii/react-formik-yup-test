@@ -14,13 +14,11 @@ import FirstStepUseFormik from "./FirstStepUseFormik";
 import SecondStepUseFormik from "./SecondStepUseFormik";
 import ThirdStepUseFormik from "./ThirdStepUseFormik";
 import dayjs, { Dayjs } from "dayjs";
-import {
-  IFirstStepSU,
-  ISecondStepSU,
-  ISignupValues,
-  IThirdStepSU,
-} from "../utils/interfaces/SignupInterface";
-import { useFormik } from "formik";
+import { ISignupValues } from "../utils/interfaces/SignupInterface";
+import { Form, Formik, useFormik, useFormikContext } from "formik";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { arrayStepsSchemaValidation } from "../utils/validation/validationSchema";
+//1)Validation for all fields
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -85,90 +83,51 @@ function QontoStepIcon(props: StepIconProps) {
 
 export default function StepperComponent() {
   const [activeStep, setActiveStep] = React.useState(0);
-  const [data, setData] = React.useState<ISignupValues | null>();
-  const [value] = React.useState<number | null>(Date.now());
-
-  const initValuesFirstStepSU: IFirstStepSU = {
+  const [loaidng, setLoading] = React.useState(false);
+  const initValueForm: ISignupValues = {
+    codeCountry: "",
     numberPhone: "",
     username: "",
     firstName: "",
     lastName: "",
     DOB: dayjs(),
     conditions: false,
-  };
-  const initValuesSecondStepSU: ISecondStepSU = {
     password: "",
     confirmPassword: "",
-  };
-  const initValuesThirdStepSU: IThirdStepSU = {
     position: "",
-    timeSlots: [{ from: value, to: value }],
+    timeSlots: [{ from: Date.now(), to: Date.now() }],
   };
-  const firstStepForm = useFormik({
-    initialValues: initValuesFirstStepSU,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-    },
-  });
-  const secondStepForm = useFormik({
-    initialValues: initValuesSecondStepSU,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-    },
-  });
-  const thirdStepForm = useFormik({
-    initialValues: initValuesThirdStepSU,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-    },
-  });
+
   const steps = [
     {
-      component: <FirstStepUseFormik {...firstStepForm} />,
-      form: firstStepForm,
+      component: <FirstStepUseFormik />,
     },
     {
-      component: <SecondStepUseFormik {...secondStepForm} />,
-      form: secondStepForm,
+      component: <SecondStepUseFormik />,
     },
     {
-      component: (
-        <ThirdStepUseFormik
-          initValue={initValuesThirdStepSU}
-          submit={() => {
-            console.log("sfjkls");
-          }}
-        />
-      ),
-      form: thirdStepForm,
+      component: <ThirdStepUseFormik />,
     },
   ];
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
-    steps[activeStep].form.submitForm();
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const submit = async () => {
-    const res = steps.reduce(
-      (accumulator, crr) => ({ ...accumulator, ...crr.form.values }),
-      {}
-    );
-
-    // setData(steps.reduce((accumulator, currentValue) => {...accumu},{}));
+  const submit = async (values: ISignupValues) => {
     try {
+      setLoading(true);
       const request = await new Promise((resolve) => {
         setTimeout(() => {
-          // resolve("Yay");
-          alert(JSON.stringify(res, null, 2));
+          resolve(JSON.stringify(values, null, 2));
         }, 4000);
       });
-
       alert(request);
+      setLoading(false);
     } catch (err) {
       throw err;
     }
@@ -191,27 +150,58 @@ export default function StepperComponent() {
       </Box>
       <div>
         <React.Fragment>
-          <Box>{steps[activeStep].component}</Box>
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
-              Back
-            </Button>
+          <Formik
+            initialValues={initValueForm}
+            validationSchema={arrayStepsSchemaValidation[activeStep]}
+            onSubmit={(values) => {
+              if (!(steps.length - 1 === activeStep)) {
+                handleNext();
+              } else {
+                submit(values);
+              }
+            }}
+          >
+            {({ submitForm }) => (
+              <Box>
+                <Box>{steps[activeStep].component}</Box>
+                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                  <Button
+                    color="inherit"
+                    disabled={activeStep === 0}
+                    onClick={() => {
+                      handleBack();
+                    }}
+                    sx={{ mr: 1 }}
+                  >
+                    Back
+                  </Button>
 
-            {activeStep !== steps.length - 1 ? (
-              <Button onClick={handleNext} sx={{ mr: 1 }}>
-                Next
-              </Button>
-            ) : (
-              <Button onClick={submit} variant="contained" sx={{ mr: 1 }}>
-                Submit
-              </Button>
+                  {activeStep !== steps.length - 1 ? (
+                    <Button
+                      variant="text"
+                      sx={{ mr: 1 }}
+                      onClick={() => {
+                        submitForm();
+                      }}
+                    >
+                      Next
+                    </Button>
+                  ) : (
+                    <LoadingButton
+                      loading={loaidng}
+                      variant="contained"
+                      sx={{ mr: 1 }}
+                      onClick={() => {
+                        submitForm();
+                      }}
+                    >
+                      Submit
+                    </LoadingButton>
+                  )}
+                </Box>
+              </Box>
             )}
-          </Box>
+          </Formik>
         </React.Fragment>
       </div>
     </Box>

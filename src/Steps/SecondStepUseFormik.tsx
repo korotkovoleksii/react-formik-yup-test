@@ -1,10 +1,8 @@
 import React from "react";
-
-import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
-import { ISecondStepSU } from "../utils/interfaces/SignupInterface";
-import { FormikProps, useFormik } from "formik";
+import { Field, Form, useFormikContext } from "formik";
 import {
+  Box,
+  Grid,
   FormControl,
   IconButton,
   InputAdornment,
@@ -12,93 +10,83 @@ import {
   OutlinedInput,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { ISignupValues } from "../utils/interfaces/SignupInterface";
 
-const SecondStepUseFormik: React.FC<FormikProps<ISecondStepSU>> = ({
-  values,
-  errors,
-  touched,
-  handleChange,
-  handleBlur,
-  handleSubmit,
-  isSubmitting,
-}: FormikProps<ISecondStepSU>) => {
+const SecondStepUseFormik: React.FC = () => {
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setConfirmPassword] = React.useState(false);
-
+  const formik = useFormikContext<ISignupValues>();
   return (
-    <form
-      autoComplete="off"
-      style={{ display: "flex", flexDirection: "column" }}
-    >
-      <Grid container direction="column" spacing={2}>
-        {/* <Grid item> */}
-        {/* <TextField
-            name="password"
-            label="Password"
-            variant="outlined"
-            type="password"
-            fullWidth
-          />
-        </Grid> */}
-        {/* <Grid item>
-          <TextField
-            name="confirm-password"
-            label="Confirm password"
-            variant="outlined"
-            type="password"
-            fullWidth
-          />
-        </Grid> */}
-        <Grid item>
-          <FormControl variant="outlined" fullWidth>
-            <InputLabel htmlFor="outlined-adornment-password">
-              Password
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type={showPassword ? "text" : "password"}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={() => setShowPassword(!showPassword)}
-                    onMouseDown={() => setShowPassword(!showPassword)}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Password"
-            />
-          </FormControl>
+    <Form>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <Grid container direction="column" spacing={2}>
+          <Grid item>
+            <FormControl variant="outlined" fullWidth>
+              <InputLabel htmlFor="outlined-adornment-password">
+                Password
+              </InputLabel>
+              <Field
+                as={OutlinedInput}
+                id="outlined-adornment-password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={() => setShowPassword(!showPassword)}
+                      onMouseDown={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+              />
+            </FormControl>
+            {formik.errors.password && formik.touched.password ? (
+              <div>{formik.errors.password}</div>
+            ) : null}
+          </Grid>
+          <Grid item>
+            <FormControl variant="outlined" fullWidth>
+              <InputLabel htmlFor="outlined-adornment-password-confirm">
+                Confirm password
+              </InputLabel>
+              <Field
+                as={OutlinedInput}
+                id="outlined-adornment-password-confirm"
+                type={showConfirmPassword ? "text" : "password"}
+                name="confirmPassword"
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={() => setConfirmPassword(!showConfirmPassword)}
+                      onMouseDown={() =>
+                        setConfirmPassword(!showConfirmPassword)
+                      }
+                      edge="end"
+                    >
+                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Confirm password"
+              />
+            </FormControl>
+            {formik.errors.confirmPassword && formik.touched.confirmPassword ? (
+              <div>{formik.errors.confirmPassword}</div>
+            ) : null}
+          </Grid>
         </Grid>
-        <Grid item>
-          <FormControl variant="outlined" fullWidth>
-            <InputLabel htmlFor="outlined-adornment-password">
-              Confirm password
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type={showConfirmPassword ? "text" : "password"}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={() => setConfirmPassword(!showConfirmPassword)}
-                    onMouseDown={() => setConfirmPassword(!showConfirmPassword)}
-                    edge="end"
-                  >
-                    {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Password"
-            />
-          </FormControl>
-        </Grid>
-      </Grid>
-    </form>
+      </Box>
+    </Form>
   );
 };
 

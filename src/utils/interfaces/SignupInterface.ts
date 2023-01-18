@@ -1,9 +1,17 @@
+import dayjs, { Dayjs } from "dayjs";
+export interface ITimeSlot {
+  from: number | null;
+  to: number | null;
+}
+type Arr<T> = [T, ...T[]];
+
 export interface ISignupValues
   extends IFirstStepSU,
     ISecondStepSU,
     IThirdStepSU {}
-import dayjs, { Dayjs } from "dayjs";
+
 export interface IFirstStepSU {
+  codeCountry: string;
   numberPhone: string;
   username: string;
   firstName: string;
@@ -19,7 +27,7 @@ export interface ITimeSlot {
   from: number | null;
   to: number | null;
 }
-type Arr<T> = [T, ...T[]];
+// type Arr<T> = [T, ...T[]];
 export interface IThirdStepSU {
   position: string;
   timeSlots: Arr<ITimeSlot>;

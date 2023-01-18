@@ -1,146 +1,141 @@
 import * as React from "react";
-import dayjs, { Dayjs } from "dayjs";
-
-import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
-import { MuiTelInput, MuiTelInputInfo } from "mui-tel-input";
-import { Link, MenuItem, Select } from "@mui/material";
+import {
+  Box,
+  Link,
+  Grid,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
+} from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import { Field, Formik, FormikProps, useField, useFormik } from "formik";
-import { IFirstStepSU } from "../utils/interfaces/SignupInterface";
+import { Field, Form, useFormikContext } from "formik";
+import { ISignupValues } from "../utils/interfaces/SignupInterface";
 
 import phoneCodes from "../utils/phoneCodes.json";
 
-const FirstStepUseFormik: React.FC<FormikProps<IFirstStepSU>> = (
-  props: FormikProps<IFirstStepSU>
-) => {
-  const {
-    values,
-    errors,
-    touched,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-    setFieldValue,
-    isSubmitting,
-  } = props;
-  const [phone, setPhone] = React.useState("");
-
+const FirstStepUseFormik: React.FC = () => {
+  const formik = useFormikContext<ISignupValues>();
   return (
-    <form
-      autoComplete="off"
-      style={{ display: "flex", flexDirection: "column" }}
-      onSubmit={handleSubmit}
-    >
-      <Grid container spacing={2} direction="column">
-        <Grid item>
-          <MuiTelInput
-            id="numberPhone"
-            name="numberPhone"
-            value={values.numberPhone}
-            onChange={(value) => {
-              setFieldValue("numberPhone", value);
-            }}
-            fullWidth
-          />
-          {/* <Grid item xs={4}>`
-            <Select fullWidth>
-              {phoneCodes.map((item) => (
-                <MenuItem divider={true} value={item.code}>
-                  {item.name} {item.dial_code}
-                </MenuItem>
-              ))}
-            </Select>
+    <form onSubmit={formik.submitForm}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <Grid container spacing={2} direction="column">
+          <Grid item container spacing={2}>
+            <Grid item xs={4}>
+              <FormControl fullWidth>
+                <InputLabel id="codeCountryIdLabel">Code country</InputLabel>
+                <Field
+                  as={Select}
+                  name="codeCountry"
+                  variant="outlined"
+                  labelId="codeCountryIdLabel"
+                  label="Code country"
+                  fullWidth
+                >
+                  {phoneCodes.map((item) => (
+                    <MenuItem value={item.dial_code} key={item.code}>
+                      {item.code} {item.dial_code}
+                    </MenuItem>
+                  ))}
+                </Field>
+              </FormControl>
+            </Grid>
+            <Grid item xs={8}>
+              <Field
+                as={TextField}
+                name="numberPhone"
+                variant="outlined"
+                label="Phone number"
+                fullWidth
+              />
+              {formik.errors.numberPhone && formik.touched.numberPhone ? (
+                <div>{formik.errors.numberPhone}</div>
+              ) : null}
+            </Grid>
           </Grid>
-          <Grid item xs={8}>
-            <TextField
-              id="numberPhone"
-              name="numberPhone"
-              value={values.numberPhone}
-              onChange={handleChange}
-              label="Phone Number"
+
+          <Grid item>
+            <Field
+              as={TextField}
+              name="username"
+              label="Username"
               variant="outlined"
               fullWidth
-            />
-          </Grid> */}
-        </Grid>
+            ></Field>
+            {formik.errors.username && formik.touched.username ? (
+              <div>{formik.errors.username}</div>
+            ) : null}
+          </Grid>
 
-        <Grid item>
-          <TextField
-            id="username"
-            name="username"
-            value={values.username}
-            onChange={handleChange}
-            label="Username"
-            variant="outlined"
-            type="tel"
-            fullWidth
-          />
-        </Grid>
+          <Grid item>
+            <Field
+              as={TextField}
+              name="firstName"
+              label="First Name"
+              fullWidth
+            ></Field>
+            {formik.errors.firstName && formik.touched.firstName ? (
+              <div>{formik.errors.firstName}</div>
+            ) : null}
+          </Grid>
 
-        <Grid item>
-          <TextField
-            id="firstName"
-            name="firstName"
-            value={values.firstName}
-            onChange={handleChange}
-            label="First name"
-            variant="outlined"
-            fullWidth
-          />
-        </Grid>
+          <Grid item>
+            <Field
+              as={TextField}
+              name="lastName"
+              label="Last name"
+              variant="outlined"
+              fullWidth
+            ></Field>
+            {formik.errors.lastName && formik.touched.lastName ? (
+              <div>{formik.errors.lastName}</div>
+            ) : null}
+          </Grid>
 
-        <Grid item>
-          <TextField
-            id="lastName"
-            name="lastName"
-            value={values.lastName}
-            onChange={handleChange}
-            label="Last name"
-            variant="outlined"
-            fullWidth
-          />
-        </Grid>
-
-        <Grid item>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DesktopDatePicker
-              label="Date of birth"
-              inputFormat="MM/DD/YYYY"
-              value={values.DOB}
-              onChange={handleChange}
-              renderInput={(params: any) => (
-                <TextField variant="outlined" fullWidth {...params} />
-              )}
-            />
-          </LocalizationProvider>
-        </Grid>
-
-        <Grid item>
-          <FormControlLabel
-            control={
-              <Checkbox
-                id="conditions"
-                name="conditions"
-                checked={values.conditions}
-                onChange={handleChange}
+          <Grid item>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DesktopDatePicker
+                label="Date of birth"
+                inputFormat="MM/DD/YYYY"
+                value={formik.values.DOB}
+                onChange={(newDate) => {
+                  formik.setFieldValue("DOB", newDate);
+                }}
+                renderInput={(params: any) => (
+                  <TextField variant="outlined" fullWidth {...params} />
+                )}
               />
-            }
-            label=<Link
-              target="_blank"
-              href="http://www.example.com"
-              underline="none"
-            >
-              I agree to terms & conditions
-            </Link>
-            name="policy"
-          />
+            </LocalizationProvider>
+          </Grid>
+
+          <Grid item>
+            <FormControlLabel
+              control={<Field as={Checkbox} name="conditions" />}
+              label=<Link
+                target="_blank"
+                href="http://www.example.com"
+                underline="none"
+              >
+                I agree to terms & conditions
+              </Link>
+              name="policy"
+            />
+          </Grid>
+          {formik.errors.conditions && formik.touched.conditions ? (
+            <div>{formik.errors.conditions}</div>
+          ) : null}
         </Grid>
-      </Grid>
+      </Box>
     </form>
   );
 };
