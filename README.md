@@ -1,11 +1,34 @@
-# What needs to be done
+# Understanding Formik and Yup
 
-1. ~~Підключити формік на всі сторінки реєстрації~~
-1. ~~Додати Select `phoneCode` до інпуту телефону\*~~
-1. ~~Додати посилання на example.com до чекбоксу Terms & conditions~~
-1. ~~Змінити Email на Phone~~
-1. ~~Додати кнопку Show password з іконкою ока до паролю та підтвердження паролю на другому кроці~~
-1. ~~Додати select до поля position на останньому кроці~~
-1. ~~Додати функціонал до таймслотів (можливість додати або прибрати їх). Мінімум один, максимум 5\*~~
-1. ~~Кнопка submit має виводити введені до форми дані в alert~~
-1. ~~Кнопка submit має переходити у стан "завантаження" після натискання\*~~
+Welcome to the Understanding Formik and Yup project, where we dive into the world of form handling and validation in React.
+
+## What is Formik?
+
+Formik is a popular React library that helps with building and managing forms in React. It provides a convenient way to handle form values, validation, and submissions.
+
+## What is Yup?
+
+Yup is a library for object schema validation in JavaScript. It provides a simple and flexible way to validate objects, and it integrates well with Formik to provide form validation.
+
+## Features
+
+In this project, you'll learn how to:
+
+- Use Formik to handle form values, validation, and submissions
+- Use Yup to validate form inputs
+- Display error messages when inputs are invalid
+- Submit a form and show a success message
+
+Additionally, this project includes a challenging form that you can use to practice and test your Formik and Yup skills.
+
+## Getting Started
+
+To get started with the Understanding Formik and Yup project, follow these steps:
+
+1. Clone the repository:
+git clone https://github.com/korotkovoleksii/react-formik-yup-test.git
+2. Install the dependencies:
+npm install
+3. Start the project:
+npm start
+The project should now be up and running on `http://localhost:3000`.
